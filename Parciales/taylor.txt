@@ -1,0 +1,74 @@
+# Aproximación Polinomio de Taylor alrededor de x0
+# función en forma simbólica con sympy
+
+import numpy as np
+import sympy as sym
+
+# Calcula n términos del polinomio de Taylor
+# funcionx es simbólica
+def politaylor(fx,x0,n):
+    k = 0
+    polinomio = 0
+    while (k <= n):
+        derivada   = fx.diff(x,k)
+        derivadax0 = derivada.subs(x,x0)
+        divisor   = np.math.factorial(k)
+        terminok  = (derivadax0/divisor)*(x-x0)**k
+        polinomio = polinomio + terminok
+        k = k + 1
+    return(polinomio)
+
+
+# PROGRAMA  -------------
+
+# Calcule el error con polinomio Taylor grado 4
+
+# INGRESO
+
+# variable x es simbólica
+x = sym.Symbol('x')
+fx = sym.sqrt(x+1)
+
+x0 = 1
+xi = 3/2 # donde se evalua el polinomio
+n  = 4
+
+# PROCEDIMIENTO
+
+# Referencia, f(xi) real
+fxi = fx.subs(x,xi)
+
+# Aproximado con Taylor
+polinomio = politaylor(fx,x0,n)
+pxi = polinomio.subs(x,xi)
+
+error_real = fxi - pxi
+
+# SALIDA
+print(' Taylor:     ', polinomio)
+print(' xi:         ', xi)
+print(' estimado  : ', pxi)
+print(' real:       ', fxi)
+print(' error real: ', error_real)
+
+
+
+# GRAFICA
+# calcula los puntos para fx y gx
+xi = np.linspace(a,b,muestras)
+fi = fx(xi)
+gi = gx(xi)
+yi = xi
+
+import matplotlib.pyplot as plt
+
+plt.plot(xi,fi, label='f(x)')
+plt.plot(xi,gi, label='g(x)')
+plt.plot(xi,yi, label='y=x')
+
+if (respuesta!= np.nan):
+    plt.axvline(respuesta)
+plt.axhline(0, color='k')
+plt.title('Punto Fijo')
+plt.legend()
+plt.show()
